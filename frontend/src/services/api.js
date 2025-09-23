@@ -7,4 +7,28 @@ const api = axios.create({
   },
 });
 
+
+export const getAllCinemas = async () => {
+  try {
+    const response = await api.get("/cinemas");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching cinemas:", error);
+    throw error;
+  }
+};
+
+
+
+export const getShowsByCinema = async (cinemaId) => {
+  try {
+    const response = await api.get(`/shows/cinema/${cinemaId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching shows for cinema ${cinemaId}:`, error);
+    throw error;
+  }
+};
+
+
 export default api;
