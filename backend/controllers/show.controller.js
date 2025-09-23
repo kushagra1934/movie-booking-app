@@ -44,5 +44,27 @@ exports.getShowsByCinema = async (req, res) => {
 };
 
 
+// This function gets a single show by its ID
+exports.getShowById = async (req, res) => {
+  try {
+    const show = await Show.findById(req.params.showId)
+      .populate('movie')
+      .populate({
+        path: 'screen',
+        populate: {
+          path: 'cinema'
+        }
+      });
+    if (!show) {
+      return res.status(404).json({ msg: 'Show not found' });
+    }
+    res.json(show);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+};
+
+
 // 68d2c5d6123a2e3e2e5665e2
 // 68d2c9e6123a2e3e2e5665e4
