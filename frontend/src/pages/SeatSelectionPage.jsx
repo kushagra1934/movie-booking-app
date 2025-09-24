@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getShowDetails, createBooking } from "../services/api";
 import Seat from "../components/Seat";
+import { useAuth } from "../context/AuthContext";
 
 const SeatSelectionPage = () => {
+  const { user } = useAuth();
   const { showId } = useParams();
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ const SeatSelectionPage = () => {
         setShow(data);
       } catch (error) {
         console.error("Failed to fetch show details");
-        console.log(error)
+        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -46,13 +48,17 @@ const SeatSelectionPage = () => {
   };
 
   const handleBooking = async () => {
+    if (!user) {
+      alert("Please login to proceed with booking.");
+      return;
+    }
     if (selectedSeats.length === 0) {
       alert("Please select at least one seat.");
       return;
     }
 
     // Replace this with the actual user ID you copied
-    const userId = "68d2da245d4b0c342bb87a09";
+    const userId =user.id;
 
     const bookingData = {
       user: userId,
@@ -66,7 +72,7 @@ const SeatSelectionPage = () => {
       navigate("/confirmation");
     } catch (error) {
       alert("Failed to create booking. Please try again.");
-      console.log(error)
+      console.log(error);
     }
   };
 
