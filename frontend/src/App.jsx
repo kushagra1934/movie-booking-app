@@ -9,12 +9,14 @@ import ConfirmationPage from "./pages/ConfirmationPage";
 import BookingHistoryPage from "./pages/BookingHistoryPage";
 import SeatSelectionPage from "./pages/SeatSelectionPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import RegisterPage from "./pages/RegisterPage";
 function App() {
   return (
     <Router>
       <Header /> {/* Header will now appear on every page */}
       <div className="container mx-auto p-4">
         <Routes>
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/cinema/:cinemaId" element={<CinemaPage />} />
@@ -22,7 +24,11 @@ function App() {
           <Route path="/confirmation" element={<ConfirmationPage />} />
           <Route
             path="/history"
-            element={<ProtectedRoute><BookingHistoryPage /></ProtectedRoute>}
+            element={
+              <ProtectedRoute>
+                <BookingHistoryPage />
+              </ProtectedRoute>
+            }
           />
         </Routes>
       </div>
